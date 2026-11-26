@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>旅途手帳| 旅遊行程規劃與筆記</title>
+  <title>旅途手帳 | 旅遊行程規劃與筆記</title>
 
   <!-- PWA & iOS 加入主畫面設定 -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -19,15 +19,15 @@
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Google Fonts: Plus Jakarta Sans & Noto Sans TC -->
+  <!-- Google Fonts: Noto Serif TC & Noto Sans TC -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800&family=Noto+Serif+TC:wght@600;700;900&display=swap" rel="stylesheet" />
 
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
-  <!-- PeerJS & QRCode.js CDN (跨裝置一鍵同步) -->
+  <!-- PeerJS & QRCode.js CDN (跨裝置連線與 QR Code 產生) -->
   <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
@@ -36,7 +36,8 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['"Plus Jakarta Sans"', '"Noto Sans TC"', 'sans-serif'],
+            sans: ['"Noto Sans TC"', 'sans-serif'],
+            serif: ['"Noto Serif TC"', 'serif'],
           },
           colors: {
             cream: '#FAF8F5',
@@ -89,9 +90,13 @@
     body {
       background-color: #FAF8F5;
       color: #2B2927;
-      font-family: 'Plus Jakarta Sans', 'Noto Sans TC', sans-serif;
+      font-family: 'Noto Sans TC', sans-serif;
       overscroll-behavior-y: none;
       padding-top: var(--sat);
+    }
+
+    .font-editorial {
+      font-family: 'Noto Serif TC', serif;
     }
 
     .no-scrollbar::-webkit-scrollbar {
@@ -164,7 +169,7 @@
   <div id="app" class="w-full max-w-[1400px] mx-auto min-h-screen bg-cream relative flex flex-col md:flex-row">
 
     <!-- ==========================================
-         電腦模式：左側固定側邊欄 (Desktop Sidebar)
+         電腦模式：左側固定側邊欄 (Desktop Sidebar, >=768px)
          ========================================== -->
     <aside class="hidden md:flex md:w-72 lg:w-80 md:shrink-0 md:flex-col md:sticky md:top-0 md:h-screen bg-paper/95 backdrop-blur-md border-r border-sand p-5 justify-between overflow-y-auto z-30">
       <div class="space-y-5">
@@ -175,7 +180,7 @@
               <i data-lucide="book-open-check" class="w-5 h-5"></i>
             </div>
             <div>
-              <span class="font-extrabold text-base text-charcoal-900 tracking-tight block leading-none">旅途手帳</span>
+              <span class="font-editorial font-black text-base text-charcoal-900 tracking-tight block leading-none">旅途手帳</span>
               <span class="text-[10px] font-bold tracking-widest uppercase text-charcoal-400 mt-1 block">TabiNote Journal</span>
             </div>
           </div>
@@ -252,12 +257,12 @@
           <i data-lucide="calculator" class="w-4 h-4 text-sage-500"></i>
           <span>匯率速算機</span>
         </button>
-        <button type="button" onclick="openSyncModal('send')" class="w-full flex items-center justify-between px-3.5 py-2 rounded-xl text-xs font-semibold text-terra-600 bg-terra-50/70 hover:bg-terra-50 border border-terra-100 transition">
+        <button type="button" onclick="openSyncModal('text')" class="w-full flex items-center justify-between px-3.5 py-2 rounded-xl text-xs font-semibold text-terra-600 bg-terra-50/70 hover:bg-terra-50 border border-terra-100 transition">
           <span class="flex items-center gap-3">
-            <i data-lucide="radio" class="w-4 h-4 text-terra-500"></i>
-            <span>跨裝置一鍵同步</span>
+            <i data-lucide="repeat" class="w-4 h-4 text-terra-500"></i>
+            <span>雙機同步與空間</span>
           </span>
-          <span class="text-[10px] px-1.5 py-0.5 rounded bg-terra-500 text-white font-bold">P2P</span>
+          <span class="text-[10px] px-1.5 py-0.5 rounded bg-terra-500 text-white font-bold">同步碼</span>
         </button>
         <button type="button" onclick="openInstallModal()" class="w-full flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-semibold text-charcoal-500 hover:bg-cream hover:text-charcoal-900 transition">
           <i data-lucide="smartphone" class="w-4 h-4"></i>
@@ -286,14 +291,14 @@
           </div>
         </button>
 
-        <!-- 手機版右上功能鍵：匯率速算、PeerJS 同步、PWA 安裝 -->
+        <!-- 手機版右上功能鍵：匯率速算、雙機同步、PWA 安裝 -->
         <div class="flex items-center gap-1 shrink-0">
           <button type="button" onclick="openCurrencyCalculator()" title="匯率速算" class="flex items-center gap-1 bg-sage-50 text-sage-600 border border-sage-200 px-2 py-1.5 rounded-full text-[11px] font-bold hover:bg-sage-100 active:scale-95 transition">
             <i data-lucide="calculator" class="w-3.5 h-3.5"></i>
             <span class="hidden min-[360px]:inline">速算</span>
           </button>
-          <button type="button" onclick="openSyncModal('receive')" title="跨裝置一鍵同步" class="flex items-center gap-1 bg-terra-50 text-terra-600 border border-terra-200 px-2 py-1.5 rounded-full text-[11px] font-bold hover:bg-terra-100 active:scale-95 transition">
-            <i data-lucide="radio" class="w-3.5 h-3.5"></i>
+          <button type="button" onclick="openSyncModal('text')" title="雙機同步與空間" class="flex items-center gap-1 bg-terra-50 text-terra-600 border border-terra-200 px-2 py-1.5 rounded-full text-[11px] font-bold hover:bg-terra-100 active:scale-95 transition">
+            <i data-lucide="repeat" class="w-3.5 h-3.5"></i>
             <span class="hidden min-[390px]:inline">同步</span>
           </button>
           <button type="button" onclick="openInstallModal()" title="加入主畫面" class="p-1.5 rounded-full bg-paper border border-sand text-charcoal-700 hover:bg-sand/40 active:scale-95 transition">
@@ -306,15 +311,15 @@
       <header class="hidden md:flex sticky top-0 z-20 bg-cream/95 backdrop-blur-md border-b border-sand px-8 py-4 items-center justify-between gap-4">
         <div class="min-w-0">
           <div class="flex items-center gap-2.5">
-            <h1 id="desktop-page-title" class="font-extrabold text-xl text-charcoal-900 tracking-tight">行程總覽</h1>
-            <span id="desktop-trip-pill" class="text-xs font-semibold px-3 py-0.5 rounded-full bg-paper border border-sand text-charcoal-700 truncate">東京五天四夜自由行</span>
+            <h1 id="desktop-page-title" class="font-editorial font-bold text-xl text-charcoal-900 tracking-tight">行程總覽</h1>
+            <span id="desktop-trip-pill" class="text-xs font-semibold px-3 py-0.5 rounded-full bg-paper border border-sand text-charcoal-700 truncate">東京賞楓與咖啡巡禮 4 日遊</span>
           </div>
           <p id="desktop-page-desc" class="text-xs text-charcoal-500 mt-0.5">檢視旅程倒數、預算與每日行程總覽</p>
         </div>
 
         <div class="flex items-center gap-2.5 shrink-0">
-          <button type="button" onclick="openSyncModal('send')" class="flex items-center gap-1.5 bg-paper text-terra-600 border border-terra-200 px-3.5 py-2 rounded-xl text-xs font-bold hover:bg-terra-50 shadow-2xs transition">
-            <i data-lucide="radio" class="w-4 h-4"></i>
+          <button type="button" onclick="openSyncModal('text')" class="flex items-center gap-1.5 bg-paper text-terra-600 border border-terra-200 px-3.5 py-2 rounded-xl text-xs font-bold hover:bg-terra-50 shadow-2xs transition">
+            <i data-lucide="repeat" class="w-4 h-4"></i>
             <span>雙機同步</span>
           </button>
           <button type="button" onclick="openCurrencyCalculator()" class="flex items-center gap-1.5 bg-paper text-charcoal-700 border border-sand px-3.5 py-2 rounded-xl text-xs font-bold hover:bg-sand/30 shadow-2xs transition">
@@ -427,6 +432,7 @@
     const IDB_VERSION = 1;
     const IDB_STORE = 'appState';
     const IDB_RECORD_KEY = 'primary_state';
+    const TEXT_SYNC_PREFIX = 'TABINOTE:';
 
     const THEME_COLORS = {
       terra: { name: '暖陽陶橘', bg: 'bg-terra-500', light: 'bg-terra-50', text: 'text-terra-600', border: 'border-terra-200' },
@@ -453,10 +459,10 @@
     };
 
     const CHECKLIST_CATEGORIES = {
-      docs: { label: '證件與金錢', icon: 'wallet' },
-      clothes: { label: '衣物穿搭', icon: 'shirt' },
-      electronics: { label: '3C電子產品', icon: 'smartphone' },
-      toiletries: { label: '個人護理與其他', icon: 'pill' }
+      docs: { label: '重要證件與錢包', icon: 'wallet' },
+      clothes: { label: '衣物與穿搭', icon: 'shirt' },
+      electronics: { label: '電子與充電', icon: 'smartphone' },
+      toiletries: { label: '個人盥洗與常備藥', icon: 'pill' }
     };
 
     const CURRENCY_PRESETS = [
@@ -470,7 +476,7 @@
     ];
 
     // ==========================================
-    // 3. 預設範例資料
+    // 3. 預設範例資料（東京賞楓與咖啡巡禮 4 日遊）
     // ==========================================
     function getDefaultData() {
       const today = new Date();
@@ -479,105 +485,125 @@
       const startStr = formatDateISO(futureDate);
 
       return {
-        currentTripId: 'trip_tokyo_demo',
+        currentTripId: 'trip_tokyo_maple_demo',
         trips: [
           {
-            id: 'trip_tokyo_demo',
-            title: '東京秋日漫步五天四夜',
+            id: 'trip_tokyo_maple_demo',
+            title: '東京賞楓與咖啡巡禮 4 日遊',
             destination: '日本 · 東京',
             startDate: startStr,
-            days: 5,
+            days: 4,
             theme: 'terra',
             currency: 'JPY',
             currencySymbol: '¥',
             exchangeRate: 0.215,
             updatedAt: Date.now(),
-            coverNote: '主攻下北澤古著咖啡廳、中目黑散步與富士山河口湖一日遊！記得把 Suica 加值並截圖保存 Visit Japan Web QR Code。',
+            coverNote: '漫步明治神宮外苑銀杏並木與代代木公園楓葉林，探訪清澄白河與中目黑職人手沖咖啡館！記得先把 Suica 加值並截圖 Visit Japan Web QR Code。',
             itinerary: [
               {
-                id: 'act_1',
+                id: 'act_maple_1',
                 day: 1,
                 time: '13:30',
-                title: '抵達成田機場 & 搭乘 Skyliner',
+                title: '抵達成田機場 & 搭乘 Skyliner 進市區',
                 category: 'transport',
                 location: 'Narita International Airport Terminal 2',
                 cost: 2570,
-                note: '領取事先預訂的 Skyliner 車票與東京地鐵 72 小時券。'
+                note: '領取事先預訂的京成電鐵 Skyliner 車票與東京地鐵 72 小時乘車券。'
               },
               {
-                id: 'act_2',
+                id: 'act_maple_2',
                 day: 1,
                 time: '16:00',
-                title: '飯店 Check-in 放行李',
+                title: '飯店 Check-in 寄放行李',
                 category: 'hotel',
                 location: '新宿格拉斯麗酒店 Hotel Gracery Shinjuku',
                 cost: 0,
-                note: '訂房代號：#TYO-882941，先休息片刻再出門吃晚餐。'
+                note: '訂房代號：#TYO-904218，先整裝稍作休息再出發吃晚餐。'
               },
               {
-                id: 'act_3',
+                id: 'act_maple_3',
                 day: 1,
                 time: '18:30',
-                title: '新宿思出橫丁 串燒晚餐',
+                title: '新宿思出橫丁 炭火串燒晚餐',
                 category: 'food',
                 location: 'Omoide Yokocho Shinjuku',
                 cost: 4200,
-                note: '推薦必點雞肉蔥串、鹽烤牛舌與冰生啤，記得準備現金。'
+                note: '推薦必點雞肉蔥串、鹽烤牛舌與冰生啤，小店多收現金記得備好日圓。'
               },
               {
-                id: 'act_4',
+                id: 'act_maple_4',
                 day: 2,
-                time: '09:30',
-                title: '淺草寺雷門 & 仲見世通散步',
+                time: '09:00',
+                title: '明治神宮外苑 黃金銀杏並木大道',
                 category: 'sightseeing',
-                location: 'Senso-ji Asakusa',
-                cost: 1500,
-                note: '早上人潮較少好拍照，順便抽一支吉籤與買人形燒。'
+                location: 'Meiji Jingu Gaien Ginkgo Avenue',
+                cost: 0,
+                note: '早上光線最柔和且人潮較少，適合拍攝整排金黃色銀杏隧道。'
               },
               {
-                id: 'act_5',
+                id: 'act_maple_5',
                 day: 2,
-                time: '12:30',
-                title: '淺草今半 百年壽喜燒午間套餐',
+                time: '11:30',
+                title: '表參道 Koffee Mameya 職人手沖咖啡',
                 category: 'food',
-                location: 'Asakusa Imahan Kokusai Dori',
-                cost: 8800,
-                note: '已預約 12:30，午間套餐 CP 值最高！'
+                location: 'KOFFEE MAMEYA Omotesando',
+                cost: 1800,
+                note: '咖啡師會一對一依風味偏好推薦豆款，順便帶一包淺焙手沖豆。'
               },
               {
-                id: 'act_6',
+                id: 'act_maple_6',
                 day: 2,
-                time: '15:30',
-                title: '晴空塔墨田水族館 & 伴手禮採買',
-                category: 'shopping',
-                location: 'Tokyo Skytree',
-                cost: 6500,
-                note: '頂樓展望台看夕陽，順便買限定版東京芭娜娜。'
-              },
-              {
-                id: 'act_7',
-                day: 3,
-                time: '10:30',
-                title: '中目黑星巴克臻選烘焙工坊',
-                category: 'food',
-                location: 'Starbucks Reserve Roastery Tokyo',
-                cost: 2400,
-                note: '先抽整理券，沿著目黑川散步逛選物店。'
-              },
-              {
-                id: 'act_8',
-                day: 3,
                 time: '14:30',
-                title: '澀谷 SKY 360度高空展望台',
+                title: '代代木公園賞楓 & 澀谷 SKY 看夕陽',
                 category: 'sightseeing',
                 location: 'SHIBUYA SKY',
                 cost: 2500,
-                note: '預約 15:40 日落時段場次，帽子與隨身包包需寄放置物櫃。'
+                note: '已預約 15:40 日落入場時段，隨身帽子與包包需寄放在免費置物櫃。'
+              },
+              {
+                id: 'act_maple_7',
+                day: 3,
+                time: '10:00',
+                title: '清澄白河 藍瓶咖啡一號店 & 庭園散步',
+                category: 'food',
+                location: 'Blue Bottle Coffee Kiyosumi Shirakawa Flagship Cafe',
+                cost: 1650,
+                note: '早上喝完手沖拿鐵後，順道步行前往清澄庭園欣賞日式楓紅倒影。'
+              },
+              {
+                id: 'act_maple_8',
+                day: 3,
+                time: '14:00',
+                title: '中目黑星巴克臻選烘焙工坊 & 選物店',
+                category: 'shopping',
+                location: 'Starbucks Reserve Roastery Tokyo',
+                cost: 5800,
+                note: '先在門口抽取整理券，沿著目黑川兩岸逛設計選物與古著小店。'
+              },
+              {
+                id: 'act_maple_9',
+                day: 4,
+                time: '09:30',
+                title: '六義園日式庭園晨間賞楓',
+                category: 'sightseeing',
+                location: 'Rikugien Gardens Tokyo',
+                cost: 300,
+                note: '門票 ¥300，吹上茶屋可一邊品嚐抹茶和菓子一邊眺望池畔紅葉。'
+              },
+              {
+                id: 'act_maple_10',
+                day: 4,
+                time: '13:00',
+                title: '上野阿美橫丁採買伴手禮 & 前往機場',
+                category: 'shopping',
+                location: 'Ameyoko Shopping District Ueno',
+                cost: 8500,
+                note: '最後補齊藥妝與伴手禮，14:20 從京成上野站搭乘 Skyliner 前往成田機場。'
               }
             ],
             notes: [
               {
-                id: 'note_1',
+                id: 'note_maple_1',
                 category: 'booking',
                 title: '航班與住宿重要憑證',
                 content: '去程：JX800 桃園 08:30 → 成田 12:45\n回程：JX803 成田 16:20 → 桃園 18:50\n飯店地址：東京都新宿區歌舞伎町 1-19-1\n緊急聯絡電話：+81-3-6833-1111',
@@ -585,34 +611,34 @@
                 updatedAt: '行前準備'
               },
               {
-                id: 'note_2',
+                id: 'note_maple_2',
                 category: 'food',
-                title: '東京必吃口袋名單',
-                content: '1. 挽肉と米（澀谷店，早上 9 點先領整理券）\n2. AFURI 柚子鹽拉麵（原宿店）\n3. Harbs 水果千層蛋糕（新宿 Lumine Est B2）\n4. 敘敘苑商業午餐（晴空塔 30F 景觀位）',
+                title: '東京職人咖啡 & 甜點口袋名單',
+                content: '1. KOFFEE MAMEYA（表參道店，手沖單品必喝）\n2. Onibus Coffee（中目黑店，二樓可看電車經過）\n3. Fuglen Tokyo（代代木公園旁北歐復古咖啡）\n4. Harbs 水果千層蛋糕（新宿 Lumine Est B2）',
                 image: '',
-                updatedAt: '美食筆記'
+                updatedAt: '咖啡巡禮'
               },
               {
-                id: 'note_3',
+                id: 'note_maple_3',
                 category: 'shopping',
                 title: '親友代購 & 藥妝清單',
-                content: '• 合利他命 EX Plus 270錠 x 2罐（免稅滿 ¥5,500）\n• EVE 止痛藥藍色加強版 x 3盒\n• New York Perfect Cheese 奶油起司脆餅（東京車站早上排隊）\n• 藍瓶咖啡隨行杯與濾掛包',
+                content: '• 合利他命 EX Plus 270錠 x 2罐（免稅滿 ¥5,500）\n• EVE 止痛藥藍色加強版 x 3盒\n• New York Perfect Cheese 奶油起司脆餅（東京車站早上排隊）\n• 藍瓶咖啡限定隨行杯與濾掛包',
                 image: '',
                 updatedAt: '購物清單'
               }
             ],
             checklist: [
-              { id: 'chk_1', category: 'docs', text: '護照正本（確認效期大於 6 個月）', checked: true },
-              { id: 'chk_2', category: 'docs', text: '日幣現金 & 海外高回饋信用卡（雙幣卡）', checked: true },
-              { id: 'chk_3', category: 'docs', text: 'Visit Japan Web 填寫並截圖 QR Code', checked: false },
-              { id: 'chk_4', category: 'docs', text: '旅平險 + 班機延誤不便險保單電子檔', checked: false },
-              { id: 'chk_5', category: 'electronics', text: 'eSIM 開通設定 / 漫遊方案確認', checked: true },
-              { id: 'chk_6', category: 'electronics', text: '行動電源（必須放隨身行李，不可託運）', checked: false },
-              { id: 'chk_7', category: 'electronics', text: 'Type-C 快充頭與充電線', checked: false },
-              { id: 'chk_8', category: 'clothes', text: '好走耐走的運動鞋（每天預估 1.5 萬步）', checked: false },
-              { id: 'chk_9', category: 'clothes', text: '洋蔥式穿搭薄外套（早晚溫差大）', checked: false },
-              { id: 'chk_10', category: 'toiletries', text: '個人常備藥品（腸胃藥、感冒藥、OK繃）', checked: false },
-              { id: 'chk_11', category: 'toiletries', text: '摺疊購物袋（日本塑膠袋需付費）', checked: true }
+              { id: 'chk_maple_1', category: 'docs', text: '護照正本（確認效期大於 6 個月）', checked: true },
+              { id: 'chk_maple_2', category: 'docs', text: '日幣現金 & 海外高回饋雙幣信用卡', checked: true },
+              { id: 'chk_maple_3', category: 'docs', text: 'Visit Japan Web 填寫並截圖 QR Code', checked: false },
+              { id: 'chk_maple_4', category: 'docs', text: '旅平險 + 班機延誤不便險保單電子檔', checked: false },
+              { id: 'chk_maple_5', category: 'electronics', text: 'eSIM 開通設定 / 漫遊方案確認', checked: true },
+              { id: 'chk_maple_6', category: 'electronics', text: '行動電源（必須放隨身行李，不可託運）', checked: false },
+              { id: 'chk_maple_7', category: 'electronics', text: 'Type-C 快充頭與充電線', checked: false },
+              { id: 'chk_maple_8', category: 'clothes', text: '好走耐走的運動鞋（賞楓日均 1.5 萬步）', checked: false },
+              { id: 'chk_maple_9', category: 'clothes', text: '秋日洋蔥式穿搭薄風衣（早晚溫差大）', checked: false },
+              { id: 'chk_maple_10', category: 'toiletries', text: '個人常備藥品（腸胃藥、感冒藥、OK繃）', checked: false },
+              { id: 'chk_maple_11', category: 'toiletries', text: '隨身保濕護唇膏與摺疊環保購物袋', checked: true }
             ]
           }
         ]
@@ -633,10 +659,10 @@
     let pendingNoteImageBase64 = '';
     let pendingNoteImageStats = null;
 
-    // PeerJS 同步狀態管理
+    // 同步彈窗狀態管理
     let activePeer = null;
     let currentSyncCode = '';
-    let syncModalTab = 'send'; // 'send' | 'receive'
+    let syncModalTab = 'text'; // 'text' | 'peer'
     let syncMergeMode = 'merge'; // 'merge' | 'overwrite'
 
     function normalizeTripData(trip) {
@@ -804,7 +830,7 @@
     }
 
     // ==========================================
-    // 5. 通用工具函式
+    // 5. 通用工具函式與文字同步碼壓縮編解碼器
     // ==========================================
     function generateId(prefix = 'id') {
       return `${prefix}_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
@@ -828,7 +854,7 @@
       window._toastTimer = setTimeout(() => {
         toast.classList.remove('opacity-100', 'translate-y-0');
         toast.classList.add('opacity-0', '-translate-y-2');
-      }, 2400);
+      }, 2500);
     }
 
     function escapeHtml(str) {
@@ -848,13 +874,99 @@
       textarea.style.opacity = '0';
       document.body.appendChild(textarea);
       textarea.select();
+      let ok = false;
       try {
-        document.execCommand('copy');
-        showToast(successMsg);
+        ok = document.execCommand('copy');
+        if (ok && successMsg) showToast(successMsg);
       } catch (err) {
-        showToast('複製失敗，請手動選取');
+        if (successMsg) showToast('複製失敗，請手動選取複製');
       }
       document.body.removeChild(textarea);
+      return ok;
+    }
+
+    // 內建文字同步碼編碼器（支援瀏覽器原生 CompressionStream deflate-raw 壓縮 + UTF-8 Base64URL）
+    function bytesToBase64Url(uint8Array) {
+      let binary = '';
+      const chunkSize = 0x8000;
+      for (let i = 0; i < uint8Array.length; i += chunkSize) {
+        const sub = uint8Array.subarray(i, i + chunkSize);
+        binary += String.fromCharCode.apply(null, sub);
+      }
+      return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    }
+
+    function base64UrlToBytes(b64Url) {
+      let b64 = b64Url.replace(/-/g, '+').replace(/_/g, '/');
+      while (b64.length % 4 !== 0) {
+        b64 += '=';
+      }
+      const binary = atob(b64);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) {
+        bytes[i] = binary.charCodeAt(i);
+      }
+      return bytes;
+    }
+
+    async function encodeStateToTextSyncCode(stateObj) {
+      const jsonStr = JSON.stringify(stateObj);
+      const utf8Bytes = new TextEncoder().encode(jsonStr);
+
+      if (typeof CompressionStream === 'function') {
+        try {
+          const cs = new CompressionStream('deflate-raw');
+          const writer = cs.writable.getWriter();
+          writer.write(utf8Bytes);
+          writer.close();
+          const compressedBuf = await new Response(cs.readable).arrayBuffer();
+          const compressedBytes = new Uint8Array(compressedBuf);
+          const payloadB64 = bytesToBase64Url(compressedBytes);
+          return `${TEXT_SYNC_PREFIX}Z1:${payloadB64}`;
+        } catch (e) {
+          console.warn('CompressionStream 壓縮略過，改用 UTF-8 Base64:', e);
+        }
+      }
+
+      const plainB64 = bytesToBase64Url(utf8Bytes);
+      return `${TEXT_SYNC_PREFIX}U1:${plainB64}`;
+    }
+
+    async function decodeTextSyncCodeToState(rawInput) {
+      const trimmed = (rawInput || '').trim().replace(/\s+/g, '');
+      if (!trimmed.startsWith(TEXT_SYNC_PREFIX)) {
+        throw new Error('同步碼格式錯誤：必須以「TABINOTE:」開頭');
+      }
+      const body = trimmed.slice(TEXT_SYNC_PREFIX.length);
+      let jsonStr = '';
+
+      if (body.startsWith('Z1:')) {
+        const b64Part = body.slice(3);
+        const compressedBytes = base64UrlToBytes(b64Part);
+        if (typeof DecompressionStream !== 'function') {
+          throw new Error('目前瀏覽器不支援壓縮格式解碼，請改用 JSON 檔案匯入');
+        }
+        const ds = new DecompressionStream('deflate-raw');
+        const writer = ds.writable.getWriter();
+        writer.write(compressedBytes);
+        writer.close();
+        const decompressedBuf = await new Response(ds.readable).arrayBuffer();
+        jsonStr = new TextDecoder().decode(decompressedBuf);
+      } else if (body.startsWith('U1:')) {
+        const b64Part = body.slice(3);
+        const utf8Bytes = base64UrlToBytes(b64Part);
+        jsonStr = new TextDecoder().decode(utf8Bytes);
+      } else {
+        // 相容無版本前綴的純 Base64 UTF-8 格式
+        const utf8Bytes = base64UrlToBytes(body);
+        jsonStr = new TextDecoder().decode(utf8Bytes);
+      }
+
+      const parsed = JSON.parse(jsonStr);
+      if (!parsed || !Array.isArray(parsed.trips) || parsed.trips.length === 0) {
+        throw new Error('同步碼內容缺少有效的旅程資料');
+      }
+      return parsed;
     }
 
     function getDayDateInfo(startDateStr, dayNum) {
@@ -1206,7 +1318,7 @@
                     <i data-lucide="pencil" class="w-4 h-4"></i>
                   </button>
                 </div>
-                <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight mb-1">${escapeHtml(trip.title)}</h2>
+                <h2 class="font-editorial text-2xl md:text-3xl font-bold tracking-tight mb-1">${escapeHtml(trip.title)}</h2>
                 <p class="text-white/90 text-xs md:text-sm flex items-center gap-1.5 mb-3">
                   <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
                   ${escapeHtml(trip.destination)} · ${trip.startDate} 出發（共 ${trip.days} 天）
@@ -2030,47 +2142,6 @@
       });
     }
 
-    function compressDataUrlString(dataUrl, maxEdge = 1024, quality = 0.7) {
-      return new Promise((resolve) => {
-        if (!dataUrl || !dataUrl.startsWith('data:image/')) {
-          resolve({ dataUrl, beforeBytes: 0, afterBytes: 0 });
-          return;
-        }
-        const beforeBytes = estimateBase64Bytes(dataUrl);
-        const img = new Image();
-        img.onload = () => {
-          let w = img.width;
-          let h = img.height;
-          if (w > maxEdge || h > maxEdge) {
-            if (w >= h) {
-              h = Math.round((h * maxEdge) / w);
-              w = maxEdge;
-            } else {
-              w = Math.round((w * maxEdge) / h);
-              h = maxEdge;
-            }
-          }
-          const canvas = document.createElement('canvas');
-          canvas.width = w;
-          canvas.height = h;
-          const ctx = canvas.getContext('2d');
-          ctx.fillStyle = '#FFFFFF';
-          ctx.fillRect(0, 0, w, h);
-          ctx.drawImage(img, 0, 0, w, h);
-
-          const out = canvas.toDataURL('image/jpeg', quality);
-          const afterBytes = estimateBase64Bytes(out);
-          if (afterBytes > 0 && afterBytes < beforeBytes) {
-            resolve({ dataUrl: out, beforeBytes, afterBytes });
-          } else {
-            resolve({ dataUrl, beforeBytes, afterBytes: beforeBytes });
-          }
-        };
-        img.onerror = () => resolve({ dataUrl, beforeBytes, afterBytes: beforeBytes });
-        img.src = dataUrl;
-      });
-    }
-
     function openNoteModal(noteId = null) {
       const trip = getCurrentTrip();
       const note = noteId ? trip.notes.find(n => n.id === noteId) : null;
@@ -2783,7 +2854,7 @@
     }
 
     // ------------------------------------------
-    // 彈窗 G：跨裝置一鍵同步 + 本機儲存空間監控與清理工具
+    // 彈窗 G：雙機同步（文字同步碼 + PeerJS 連線）與本機儲存空間監控
     // ------------------------------------------
     async function computeStorageMetrics() {
       const jsonStr = JSON.stringify(appState);
@@ -2853,61 +2924,21 @@
           <span>${m.rawPercent < 0.01 ? '< 0.01%' : m.rawPercent.toFixed(2) + '%'}</span>
         </div>
 
-        <div class="grid grid-cols-2 gap-2 pt-1 border-t border-sand/80">
-          <button type="button" onclick="optimizeAllExistingImages()" class="py-2 px-2.5 rounded-xl bg-paper border border-sand hover:border-sage-400 hover:bg-sage-50/60 text-charcoal-700 text-[11px] font-bold flex items-center justify-center gap-1 transition">
-            <i data-lucide="minimize-2" class="w-3.5 h-3.5 text-sage-600 shrink-0"></i>
-            <span>一鍵壓縮圖片瘦身</span>
-          </button>
-          <button type="button" onclick="confirmPurgeAllImages()" class="py-2 px-2.5 rounded-xl bg-paper border border-sand hover:border-rose-300 hover:bg-rose-50/60 text-charcoal-700 text-[11px] font-bold flex items-center justify-center gap-1 transition">
+        <div class="pt-1 border-t border-sand/80">
+          <button type="button" onclick="confirmPurgeAllImages()" class="w-full py-2 px-3 rounded-xl bg-paper border border-sand hover:border-rose-300 hover:bg-rose-50/60 text-charcoal-700 text-xs font-bold flex items-center justify-center gap-1.5 transition">
             <i data-lucide="image-off" class="w-3.5 h-3.5 text-rose-500 shrink-0"></i>
-            <span>清理附圖(保留文字)</span>
+            <span>清理所有筆記照片瘦身（完整保留文字）</span>
           </button>
         </div>
       `;
       if (window.lucide) lucide.createIcons();
     }
 
-    async function optimizeAllExistingImages() {
-      let imageNotes = [];
-      appState.trips.forEach(t => {
-        (t.notes || []).forEach(n => {
-          if (n.image && typeof n.image === 'string' && n.image.startsWith('data:image/')) {
-            imageNotes.push(n);
-          }
-        });
-      });
-
-      if (imageNotes.length === 0) {
-        showToast('目前沒有需要壓縮的筆記圖片');
-        return;
-      }
-
-      showToast(`正在最佳化壓縮 ${imageNotes.length} 張圖片...`);
-      let totalSaved = 0;
-
-      for (const note of imageNotes) {
-        const res = await compressDataUrlString(note.image, 1024, 0.7);
-        if (res.afterBytes < res.beforeBytes) {
-          note.image = res.dataUrl;
-          totalSaved += (res.beforeBytes - res.afterBytes);
-        }
-      }
-
-      saveState(appState, false);
-      renderApp();
-      await refreshStorageDashboardCard();
-      if (totalSaved > 0) {
-        showToast(`瘦身完成！共釋放 ${formatBytesReadable(totalSaved)} 空間`);
-      } else {
-        showToast('所有圖片皆已處於最佳壓縮狀態');
-      }
-    }
-
     function confirmPurgeAllImages() {
       openConfirmModal(
-        '清理所有筆記附圖',
-        '確定要移除所有旅程筆記中的附圖以釋放最大空間嗎？（所有文字行程、筆記內容與行李清單都會完整保留）',
-        '確認清理附圖',
+        '清理所有筆記照片瘦身',
+        '確定要移除所有旅程筆記中的附圖以釋放空間嗎？（所有文字行程、筆記內容與行李清單都會完整保留）',
+        '確認清理照片',
         async () => {
           let removedCount = 0;
           appState.trips.forEach(t => {
@@ -2921,12 +2952,12 @@
           saveState(appState, false);
           renderApp();
           openSyncModal(syncModalTab);
-          showToast(removedCount > 0 ? `已清理 ${removedCount} 張附圖並保留所有文字` : '目前沒有可清理的附圖');
+          showToast(removedCount > 0 ? `已清理 ${removedCount} 張照片並保留所有文字` : '目前沒有可清理的筆記照片');
         }
       );
     }
 
-    function openSyncModal(initialTab = 'send', prefillCode = '') {
+    function openSyncModal(initialTab = 'text', prefillCode = '') {
       syncModalTab = initialTab;
       destroyActivePeer();
 
@@ -2935,25 +2966,49 @@
           <div class="flex items-center justify-between border-b border-sand pb-3">
             <div class="flex items-center gap-2">
               <div class="w-8 h-8 rounded-xl bg-terra-50 text-terra-600 flex items-center justify-center">
-                <i data-lucide="radio" class="w-4 h-4"></i>
+                <i data-lucide="repeat" class="w-4 h-4"></i>
               </div>
               <div>
-                <h3 class="font-bold text-base text-charcoal-900">跨裝置同步與空間管理</h3>
-                <p class="text-[11px] text-charcoal-500">點對點直連同步 · IndexedDB 大容量本地引擎</p>
+                <h3 class="font-bold text-base text-charcoal-900">雙機同步與空間管理</h3>
+                <p class="text-[11px] text-charcoal-500">免連線文字同步碼 · PeerJS 連線 · IndexedDB 空間</p>
               </div>
             </div>
             <button type="button" onclick="closeModal()" class="p-1.5 rounded-full bg-cream text-charcoal-700"><i data-lucide="x" class="w-4 h-4"></i></button>
           </div>
 
-          <!-- 分頁切換：發送端 vs 接收端 -->
+          <!-- 全域同步資料模式選擇（智慧合併 vs 完整覆蓋） -->
+          <div class="bg-cream rounded-2xl p-3 border border-sand space-y-1.5">
+            <label class="block text-xs font-bold text-charcoal-800 flex items-center gap-1.5">
+              <i data-lucide="git-merge" class="w-3.5 h-3.5 text-sage-600"></i>
+              接收資料時的處理方式
+            </label>
+            <div class="grid grid-cols-2 gap-2">
+              <label class="cursor-pointer">
+                <input type="radio" name="globalSyncMergeMode" value="merge" ${syncMergeMode === 'merge' ? 'checked' : ''} onchange="syncMergeMode='merge'" class="sr-only peer" />
+                <div class="p-2.5 rounded-xl bg-paper border border-sand peer-checked:border-sage-500 peer-checked:bg-sage-50/70 transition">
+                  <div class="text-xs font-bold text-charcoal-900">智慧合併雙邊</div>
+                  <div class="text-[10px] text-charcoal-500 mt-0.5">依旅程 ID 合併，保留較新版本</div>
+                </div>
+              </label>
+              <label class="cursor-pointer">
+                <input type="radio" name="globalSyncMergeMode" value="overwrite" ${syncMergeMode === 'overwrite' ? 'checked' : ''} onchange="syncMergeMode='overwrite'" class="sr-only peer" />
+                <div class="p-2.5 rounded-xl bg-paper border border-sand peer-checked:border-terra-500 peer-checked:bg-terra-50/70 transition">
+                  <div class="text-xs font-bold text-charcoal-900">完整覆蓋本機</div>
+                  <div class="text-[10px] text-charcoal-500 mt-0.5">直接採用傳入的完整資料</div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 兩大同步分頁切換 -->
           <div class="grid grid-cols-2 gap-1.5 bg-cream p-1.5 rounded-2xl border border-sand">
-            <button type="button" id="sync-tab-send" onclick="switchSyncTab('send')" class="py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5">
-              <i data-lucide="upload-cloud" class="w-3.5 h-3.5"></i>
-              發送端 (建立連線碼)
+            <button type="button" id="sync-tab-text" onclick="switchSyncTab('text')" class="py-2 px-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5">
+              <i data-lucide="clipboard-copy" class="w-3.5 h-3.5 shrink-0"></i>
+              <span class="truncate">文字同步碼 (推薦)</span>
             </button>
-            <button type="button" id="sync-tab-receive" onclick="switchSyncTab('receive')" class="py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5">
-              <i data-lucide="download-cloud" class="w-3.5 h-3.5"></i>
-              接收端 (輸入連線碼)
+            <button type="button" id="sync-tab-peer" onclick="switchSyncTab('peer')" class="py-2 px-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5">
+              <i data-lucide="radio" class="w-3.5 h-3.5 shrink-0"></i>
+              <span class="truncate">PeerJS 連線 / QR</span>
             </button>
           </div>
 
@@ -2970,7 +3025,7 @@
             <summary class="text-xs font-bold text-charcoal-700 cursor-pointer flex items-center justify-between list-none">
               <span class="flex items-center gap-1.5">
                 <i data-lucide="file-json" class="w-3.5 h-3.5 text-sage-600"></i>
-                離線 JSON 檔案備份 / 還原與重置
+                離線 JSON 檔案備份 / 還原與範例重置
               </span>
               <i data-lucide="chevron-down" class="w-4 h-4 text-charcoal-400 group-open:rotate-180 transition-transform"></i>
             </summary>
@@ -2979,19 +3034,19 @@
               <div class="grid grid-cols-2 gap-2">
                 <button type="button" onclick="downloadBackupFile()" class="py-2 px-3 rounded-xl bg-sage-500 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-2xs active:scale-95 transition">
                   <i data-lucide="download" class="w-3.5 h-3.5"></i>
-                  下載 JSON 備份
+                  匯出 JSON 備份檔
                 </button>
                 <label class="py-2 px-3 rounded-xl bg-paper border border-sand text-charcoal-700 text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer hover:bg-sand/30 transition">
                   <i data-lucide="upload" class="w-3.5 h-3.5"></i>
-                  匯入 .json 檔案
+                  匯入 JSON 備份檔
                   <input type="file" accept=".json,application/json" onchange="handleImportFile(event)" class="hidden" />
                 </label>
               </div>
 
               <div class="flex items-center justify-between pt-1">
-                <span class="text-[11px] text-charcoal-400">想恢復預設東京範例行程？</span>
+                <span class="text-[11px] text-charcoal-400">恢復東京賞楓與咖啡巡禮 4 日遊範例？</span>
                 <button type="button" onclick="confirmResetDemoData()" class="text-xs font-bold text-rose-500 hover:underline">
-                  還原範例資料
+                  還原預設範例資料
                 </button>
               </div>
             </div>
@@ -3007,96 +3062,161 @@
       syncModalTab = tab;
       destroyActivePeer();
 
-      const btnSend = document.getElementById('sync-tab-send');
-      const btnRecv = document.getElementById('sync-tab-receive');
+      const btnText = document.getElementById('sync-tab-text');
+      const btnPeer = document.getElementById('sync-tab-peer');
       const content = document.getElementById('sync-tab-content');
-      if (!btnSend || !btnRecv || !content) return;
+      if (!btnText || !btnPeer || !content) return;
 
-      if (tab === 'send') {
-        btnSend.className = 'py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 bg-terra-500 text-white shadow-2xs';
-        btnRecv.className = 'py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 text-charcoal-600 hover:text-charcoal-900';
+      if (tab === 'text') {
+        btnText.className = 'py-2 px-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 bg-terra-500 text-white shadow-2xs';
+        btnPeer.className = 'py-2 px-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 text-charcoal-600 hover:text-charcoal-900';
+
+        content.innerHTML = `
+          <div class="space-y-3">
+            <!-- 發送端：產生並複製文字同步碼 -->
+            <div class="bg-cream rounded-2xl p-4 border border-sand space-y-2.5">
+              <div class="flex items-center justify-between">
+                <h4 class="text-xs font-extrabold text-charcoal-900 flex items-center gap-1.5">
+                  <span class="w-5 h-5 rounded-full bg-terra-500 text-white text-[10px] flex items-center justify-center font-bold">發</span>
+                  發送端：產生並複製同步文字碼
+                </h4>
+                <span class="text-[10px] font-semibold text-sage-700 bg-sage-50 px-2 py-0.5 rounded-full">免連線・不受防火牆影響</span>
+              </div>
+              <p class="text-[11px] text-charcoal-600 leading-relaxed">
+                將目前共 <strong>${appState.trips.length}</strong> 趟旅程資料壓縮編碼為 <code class="bg-paper px-1.5 py-0.5 rounded border border-sand text-terra-600 font-mono">TABINOTE:</code> 純文字，貼到 LINE 或 Telegram 傳給另一台裝置即可。
+              </p>
+
+              <button type="button" onclick="handleGenerateAndCopyTextSyncCode()" class="w-full py-2.5 px-4 rounded-xl bg-terra-500 hover:bg-terra-600 text-white font-bold text-xs shadow-xs flex items-center justify-center gap-2 active:scale-[0.99] transition">
+                <i data-lucide="copy" class="w-4 h-4"></i>
+                <span>產生並複製同步文字碼</span>
+              </button>
+
+              <!-- 產生結果顯示與字元提示 -->
+              <div id="text-sync-generated-box" class="hidden space-y-1.5 pt-1">
+                <textarea id="text-sync-output" readonly rows="2" onclick="this.select()" class="w-full bg-paper border border-sand rounded-xl p-2 text-[11px] font-mono text-charcoal-600 focus:outline-none"></textarea>
+                <div id="text-sync-meta" class="text-[11px] leading-relaxed"></div>
+              </div>
+            </div>
+
+            <!-- 接收端：貼上文字同步碼一鍵匯入 -->
+            <div class="bg-cream rounded-2xl p-4 border border-sand space-y-2.5">
+              <h4 class="text-xs font-extrabold text-charcoal-900 flex items-center gap-1.5">
+                <span class="w-5 h-5 rounded-full bg-sage-500 text-white text-[10px] flex items-center justify-center font-bold">收</span>
+                接收端：貼上同步文字碼匯入
+              </h4>
+              <textarea
+                id="text-sync-input"
+                rows="3"
+                placeholder="在此長按貼上以 TABINOTE: 開頭的完整同步文字碼..."
+                class="w-full bg-paper border border-sand focus:border-sage-500 rounded-xl p-2.5 text-xs font-mono text-charcoal-900 placeholder:text-charcoal-400 focus:outline-none"
+              ></textarea>
+              <button type="button" onclick="handleImportTextSyncCode()" class="w-full py-2.5 px-4 rounded-xl bg-sage-500 hover:bg-sage-600 text-white font-bold text-xs shadow-xs flex items-center justify-center gap-2 active:scale-[0.99] transition">
+                <i data-lucide="download-cloud" class="w-4 h-4"></i>
+                <span>一鍵匯入同步碼</span>
+              </button>
+            </div>
+          </div>
+        `;
+        if (window.lucide) lucide.createIcons();
+      } else {
+        btnPeer.className = 'py-2 px-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 bg-sage-500 text-white shadow-2xs';
+        btnText.className = 'py-2 px-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 text-charcoal-600 hover:text-charcoal-900';
 
         currentSyncCode = String(Math.floor(100000 + Math.random() * 900000));
         content.innerHTML = `
-          <div class="bg-cream rounded-2xl p-4 border border-sand text-center space-y-3">
-            <p class="text-xs text-charcoal-600">請在另一台裝置開啟「旅途手帳」掃描下方 QR Code，或切換至接收端輸入 6 位數連線碼：</p>
+          <div class="space-y-3">
+            <!-- 發送端 QR Code 與 6 位數連線碼 -->
+            <div class="bg-cream rounded-2xl p-4 border border-sand text-center space-y-2.5">
+              <p class="text-[11px] text-charcoal-600">另一台裝置可掃描 QR Code 或在下方輸入 6 位數連線碼接收：</p>
 
-            <!-- QR Code 顯示框 -->
-            <div class="bg-paper p-3 rounded-2xl border border-sand inline-block shadow-2xs">
-              <div id="sync-qrcode-box" class="w-36 h-36 flex items-center justify-center"></div>
+              <div class="bg-paper p-2.5 rounded-2xl border border-sand inline-block shadow-2xs">
+                <div id="sync-qrcode-box" class="w-32 h-32 flex items-center justify-center"></div>
+              </div>
+
+              <div>
+                <span class="text-[10px] font-bold text-charcoal-400 block mb-1">6 位數連線碼（點擊複製）</span>
+                <button type="button" onclick="copyTextToClipboard('${currentSyncCode}', '已複製連線碼 ${currentSyncCode}')" class="inline-flex items-center gap-2 bg-paper border-2 border-terra-200 hover:border-terra-500 px-4 py-1.5 rounded-2xl text-xl font-extrabold tracking-[0.22em] text-terra-600 font-mono shadow-2xs active:scale-95 transition">
+                  <span>${currentSyncCode}</span>
+                  <i data-lucide="copy" class="w-4 h-4 text-charcoal-400"></i>
+                </button>
+              </div>
+
+              <div id="sync-sender-status" class="text-[11px] font-semibold text-charcoal-600 bg-paper px-3 py-1.5 rounded-xl border border-sand flex items-center justify-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                <span>正在建立點對點連線頻道...</span>
+              </div>
             </div>
 
-            <!-- 6 位數連線碼 -->
-            <div>
-              <span class="text-[11px] font-bold text-charcoal-400 block mb-1">6 位數連線碼（點擊複製）</span>
-              <button type="button" onclick="copyTextToClipboard('${currentSyncCode}', '已複製連線碼 ${currentSyncCode}')" class="inline-flex items-center gap-2 bg-paper border-2 border-terra-200 hover:border-terra-500 px-5 py-2 rounded-2xl text-2xl font-extrabold tracking-[0.22em] text-terra-600 font-mono shadow-2xs active:scale-95 transition">
-                <span>${currentSyncCode}</span>
-                <i data-lucide="copy" class="w-4 h-4 text-charcoal-400"></i>
-              </button>
-            </div>
-
-            <!-- 即時連線狀態燈號 -->
-            <div id="sync-sender-status" class="text-xs font-semibold text-charcoal-600 bg-paper px-3 py-2 rounded-xl border border-sand flex items-center justify-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-              <span>正在建立加密同步頻道...</span>
+            <!-- 接收端輸入 6 位數連線碼 -->
+            <div class="bg-cream rounded-2xl p-4 border border-sand space-y-2.5">
+              <label class="block text-xs font-bold text-charcoal-800">接收端：輸入發送端 6 位數連線碼</label>
+              <div class="flex gap-2">
+                <input
+                  type="text"
+                  id="sync-receive-code-input"
+                  inputmode="numeric"
+                  maxlength="6"
+                  value="${escapeHtml(prefillCode)}"
+                  placeholder="6 位數字"
+                  class="flex-1 bg-paper border-2 border-sand focus:border-sage-500 rounded-xl px-3 py-2 text-center text-lg font-extrabold tracking-[0.2em] font-mono text-charcoal-900 focus:outline-none"
+                />
+                <button type="button" id="sync-connect-btn" onclick="startPeerReceiver()" class="px-4 py-2 rounded-xl bg-sage-500 hover:bg-sage-600 text-white font-bold text-xs shadow-xs flex items-center justify-center gap-1.5 shrink-0 active:scale-95 transition">
+                  <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+                  <span>連線接收</span>
+                </button>
+              </div>
+              <div id="sync-receiver-status" class="hidden text-[11px] font-semibold px-3 py-2 rounded-xl border"></div>
             </div>
           </div>
         `;
         if (window.lucide) lucide.createIcons();
         startPeerSender(currentSyncCode);
-      } else {
-        btnRecv.className = 'py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 bg-sage-500 text-white shadow-2xs';
-        btnSend.className = 'py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 text-charcoal-600 hover:text-charcoal-900';
+      }
+    }
 
-        content.innerHTML = `
-          <div class="bg-cream rounded-2xl p-4 border border-sand space-y-3.5">
-            <div>
-              <label class="block text-xs font-bold text-charcoal-700 mb-1.5">輸入發送端顯示的 6 位數連線碼</label>
-              <input
-                type="text"
-                id="sync-receive-code-input"
-                inputmode="numeric"
-                maxlength="6"
-                value="${escapeHtml(prefillCode)}"
-                placeholder="例如：482910"
-                class="w-full bg-paper border-2 border-sand focus:border-sage-500 rounded-2xl px-4 py-3 text-center text-2xl font-extrabold tracking-[0.25em] font-mono text-charcoal-900 focus:outline-none"
-              />
-            </div>
+    async function handleGenerateAndCopyTextSyncCode() {
+      try {
+        const codeStr = await encodeStateToTextSyncCode(appState);
+        const charLen = codeStr.length;
+        const box = document.getElementById('text-sync-generated-box');
+        const outEl = document.getElementById('text-sync-output');
+        const metaEl = document.getElementById('text-sync-meta');
 
-            <!-- 同步模式選擇 -->
-            <div class="space-y-1.5">
-              <label class="block text-xs font-bold text-charcoal-700">資料同步方式</label>
-              <div class="grid grid-cols-2 gap-2">
-                <label class="cursor-pointer">
-                  <input type="radio" name="syncMode" value="merge" ${syncMergeMode === 'merge' ? 'checked' : ''} onchange="syncMergeMode='merge'" class="sr-only peer" />
-                  <div class="p-2.5 rounded-xl bg-paper border border-sand peer-checked:border-sage-500 peer-checked:bg-sage-50/70 transition">
-                    <div class="text-xs font-bold text-charcoal-900">智慧合併雙邊</div>
-                    <div class="text-[10px] text-charcoal-500 mt-0.5">保留兩邊旅程並以最新修改為準</div>
-                  </div>
-                </label>
-                <label class="cursor-pointer">
-                  <input type="radio" name="syncMode" value="overwrite" ${syncMergeMode === 'overwrite' ? 'checked' : ''} onchange="syncMergeMode='overwrite'" class="sr-only peer" />
-                  <div class="p-2.5 rounded-xl bg-paper border border-sand peer-checked:border-terra-500 peer-checked:bg-terra-50/70 transition">
-                    <div class="text-xs font-bold text-charcoal-900">完整覆蓋本機</div>
-                    <div class="text-[10px] text-charcoal-500 mt-0.5">完全採用發送端的資料內容</div>
-                  </div>
-                </label>
-              </div>
-            </div>
+        if (box && outEl && metaEl) {
+          box.classList.remove('hidden');
+          outEl.value = codeStr;
+          const isLineFriendly = charLen <= 9500;
+          metaEl.innerHTML = isLineFriendly
+            ? `<span class="text-sage-700 font-bold flex items-center gap-1"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 shrink-0"></i> 已複製！共 ${charLen.toLocaleString()} 字元（適合直接貼入 LINE / Telegram 傳送）</span>`
+            : `<span class="text-amber-700 font-bold flex items-center gap-1"><i data-lucide="alert-triangle" class="w-3.5 h-3.5 shrink-0"></i> 已複製！共 ${charLen.toLocaleString()} 字元（因內含照片較長，若通訊軟體截斷請改用下方「匯出 JSON 備份檔」）</span>`;
+          if (window.lucide) lucide.createIcons();
+        }
 
-            <div id="sync-receiver-status" class="hidden text-xs font-semibold px-3 py-2 rounded-xl border"></div>
+        copyTextToClipboard(codeStr, `已產生並複製同步文字碼（${charLen.toLocaleString()} 字元）`);
+      } catch (err) {
+        console.error('產生文字同步碼失敗:', err);
+        showToast('產生同步碼失敗，請改用 JSON 備份檔');
+      }
+    }
 
-            <button type="button" id="sync-connect-btn" onclick="startPeerReceiver()" class="w-full py-3 rounded-2xl bg-sage-500 hover:bg-sage-600 text-white font-bold text-sm shadow-sm flex items-center justify-center gap-2 active:scale-[0.99] transition">
-              <i data-lucide="refresh-cw" class="w-4 h-4"></i>
-              <span>一鍵同步資料</span>
-            </button>
-          </div>
-        `;
-        if (window.lucide) lucide.createIcons();
-        setTimeout(() => {
-          const inp = document.getElementById('sync-receive-code-input');
-          if (inp && !prefillCode) inp.focus();
-        }, 120);
+    async function handleImportTextSyncCode() {
+      const inputEl = document.getElementById('text-sync-input');
+      const rawText = inputEl ? inputEl.value : '';
+      if (!rawText.trim()) {
+        showToast('請先貼上 TABINOTE: 開頭的同步文字碼');
+        if (inputEl) inputEl.focus();
+        return;
+      }
+
+      try {
+        const decodedState = await decodeTextSyncCodeToState(rawText);
+        applyIncomingSyncState(decodedState, syncMergeMode);
+        closeModal();
+        renderApp();
+        showToast(syncMergeMode === 'merge' ? '已智慧合併文字同步碼資料！' : '已完整覆蓋並匯入同步碼資料！');
+      } catch (err) {
+        console.error('解析文字同步碼失敗:', err);
+        showToast(err.message || '同步碼格式錯誤或內容不完整，請確認已完整複製');
       }
     }
 
@@ -3109,20 +3229,20 @@
           const syncUrl = `${baseUrl}?sync=${code}`;
           new QRCode(qrBox, {
             text: syncUrl,
-            width: 140,
-            height: 140,
+            width: 124,
+            height: 124,
             colorDark: '#2B2927',
             colorLight: '#FFFFFF',
             correctLevel: QRCode.CorrectLevel.M
           });
         } catch (err) {
-          qrBox.innerHTML = `<span class="text-[11px] text-charcoal-400">請直接輸入上方 6 位數連線碼</span>`;
+          qrBox.innerHTML = `<span class="text-[11px] text-charcoal-400">請輸入 6 位數連線碼</span>`;
         }
       }
 
       const statusEl = document.getElementById('sync-sender-status');
       if (!window.Peer) {
-        if (statusEl) statusEl.innerHTML = `<span class="text-rose-600">無法載入 PeerJS 連線模組，請確認網路連線或使用下方 JSON 備份。</span>`;
+        if (statusEl) statusEl.innerHTML = `<span class="text-rose-600">無法載入 PeerJS 連線模組，請改用「文字同步碼」分頁。</span>`;
         return;
       }
 
@@ -3133,8 +3253,8 @@
       peer.on('open', () => {
         if (statusEl) {
           statusEl.innerHTML = `
-            <span class="w-2.5 h-2.5 rounded-full bg-sage-500 animate-pulse"></span>
-            <span class="text-sage-700">等待另一台裝置連線中...</span>
+            <span class="w-2 h-2 rounded-full bg-sage-500 animate-pulse"></span>
+            <span class="text-sage-700">等待另一台裝置連線中（若跨網路逾時請用「文字同步碼」）</span>
           `;
         }
       });
@@ -3142,7 +3262,7 @@
       peer.on('connection', (conn) => {
         if (statusEl) {
           statusEl.innerHTML = `
-            <span class="w-2.5 h-2.5 rounded-full bg-terra-500 animate-ping"></span>
+            <span class="w-2 h-2 rounded-full bg-terra-500 animate-ping"></span>
             <span class="text-terra-600">裝置已連上！正在傳送最新行程與筆記...</span>
           `;
         }
@@ -3172,7 +3292,7 @@
       peer.on('error', (err) => {
         console.warn('PeerJS Sender Error:', err);
         if (statusEl) {
-          statusEl.innerHTML = `<span class="text-rose-600">連線服務暫時忙碌 (${err.type || '網路異常'})，請關閉視窗重試。</span>`;
+          statusEl.innerHTML = `<span class="text-rose-600">連線服務受限 (${err.type || '網路阻擋'})，建議改用「文字同步碼」傳送。</span>`;
         }
       });
     }
@@ -3190,7 +3310,7 @@
       }
 
       if (!window.Peer) {
-        showToast('無法載入 PeerJS 連線模組，請檢查網路');
+        showToast('無法載入 PeerJS 連線模組，請改用文字同步碼');
         return;
       }
 
@@ -3200,7 +3320,7 @@
         btn.classList.add('opacity-70');
       }
       if (statusEl) {
-        statusEl.className = 'text-xs font-semibold px-3 py-2 rounded-xl border border-sand bg-paper text-charcoal-700 flex items-center justify-center gap-2';
+        statusEl.className = 'text-[11px] font-semibold px-3 py-2 rounded-xl border border-sand bg-paper text-charcoal-700 flex items-center justify-center gap-2';
         statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-terra-500 animate-ping"></span><span>正在搜尋發送端 (${code})...</span>`;
       }
 
@@ -3209,8 +3329,8 @@
 
       const timeoutTimer = setTimeout(() => {
         if (statusEl) {
-          statusEl.className = 'text-xs font-semibold px-3 py-2 rounded-xl border border-rose-200 bg-rose-50 text-rose-600 text-center';
-          statusEl.textContent = '連線逾時：請確認發送端畫面仍保持開啟且 6 位數連線碼正確。';
+          statusEl.className = 'text-[11px] font-semibold px-3 py-2 rounded-xl border border-rose-200 bg-rose-50 text-rose-600 text-center';
+          statusEl.textContent = '連線逾時：跨網路可能遭防火牆阻擋，建議切換至「文字同步碼 (推薦)」直接貼上匯入。';
         }
         if (btn) {
           btn.disabled = false;
@@ -3251,8 +3371,8 @@
         conn.on('error', () => {
           clearTimeout(timeoutTimer);
           if (statusEl) {
-            statusEl.className = 'text-xs font-semibold px-3 py-2 rounded-xl border border-rose-200 bg-rose-50 text-rose-600 text-center';
-            statusEl.textContent = '無法連線至發送端，請確認連線碼是否正確。';
+            statusEl.className = 'text-[11px] font-semibold px-3 py-2 rounded-xl border border-rose-200 bg-rose-50 text-rose-600 text-center';
+            statusEl.textContent = '無法連線至發送端，請確認連線碼或改用「文字同步碼」。';
           }
           if (btn) {
             btn.disabled = false;
@@ -3264,9 +3384,9 @@
       peer.on('error', (err) => {
         clearTimeout(timeoutTimer);
         if (statusEl) {
-          statusEl.className = 'text-xs font-semibold px-3 py-2 rounded-xl border border-rose-200 bg-rose-50 text-rose-600 text-center';
+          statusEl.className = 'text-[11px] font-semibold px-3 py-2 rounded-xl border border-rose-200 bg-rose-50 text-rose-600 text-center';
           statusEl.textContent = err.type === 'peer-unavailable'
-            ? '找不到此連線碼，請確認發送端正停留在「建立連線碼」畫面。'
+            ? '找不到此連線碼，請確認發送端正停留在連線畫面，或改用「文字同步碼」。'
             : `連線發生錯誤 (${err.type || '請重試'})`;
         }
         if (btn) {
@@ -3345,7 +3465,7 @@
     }
 
     function confirmResetDemoData() {
-      openConfirmModal('還原預設範例資料', '這將會清除目前所有自訂旅程並恢復預設的東京範例資料，確定要繼續嗎？', '確認還原', () => {
+      openConfirmModal('還原預設範例資料', '這將會清除目前所有自訂旅程並恢復預設的「東京賞楓與咖啡巡禮 4 日遊」範例資料，確定要繼續嗎？', '確認還原', () => {
         appState = getDefaultData();
         selectedDay = 1;
         noteFilter = 'all';
@@ -3439,7 +3559,7 @@
         const syncParam = (params.get('sync') || '').replace(/\D/g, '');
         if (syncParam.length === 6) {
           setTimeout(() => {
-            openSyncModal('receive', syncParam);
+            openSyncModal('peer', syncParam);
           }, 250);
         }
       } catch (e) {}
